@@ -10,195 +10,290 @@ paths:
     get:
       tags:
         - "Film"
-      summary: get all Film
-      operationId: getFilm
+      summary: get all film
+      operationId: get film
       parameters:
-        - name: page
+        - name: Genre
           in: query
           schema:
-            type: integer
-        - name: page Size
-          in: query
-          required: true
-          schema:
-            type: integer
+            type: string
       responses:
         '200':
-          description: list of Film
+          description: list of film
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Projection'
+                  allOf:
+                    - $ref: '#/components/schemas/All_Film'
+                    - $ref: '#/components/schemas/film'
         '400':
-          description: bad request
+          description: Bad request
+    
     post:
       tags:
         - "Film"
-      summary: Add new Film
-      operationId: AddFilm
-      description: Add new Film
+      summary: add new film
+      operationId: add film
       requestBody:
-        description: Film to be Added
+        description: A film to be added
         content:
           application/json:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Film'
+                $ref: '#/components/schemas/film'
         required: true
       responses:
         '200':
-         description: list of Film
-         content:
+          description: A film add succefull
+          content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CreateFilm'
+                  allOf:
+                    - $ref: '#/components/schemas/All_Film'
+                    - $ref: '#/components/schemas/film'
         '400':
-          description: bad request
+          description: Bad request
+
+  /Film/{id}:
     put:
       tags:
-        - Film
-      summary: put new film
-      operationId: put film
+        - "Film"
+      summary: Change all information of film
+      operationId: Change all information
       parameters:
-        - name: titre
-          in: query
-          schema:
-            type: string
-          required: true
-      requestBody:
-        description: Film to be Added
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Projection'
-        required: true
-      responses:
-        '200':
-         description: list of Film
-         content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Projection'
-        '400':
-          description: bad request
-    
-    patch:
-      tags:
-      - Film
-      summary: update a student
-      operationId: update a student
-      requestBody:
-        description: Student to be created
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Film'
-            examples:
-              changeTitre:
-                value:
-                  id: 1
-                  name: "30jours max"
-              changeSalle:
-                value:
-                  id: 1
-                  address: 'B'
-              ChangeHeure_diffusion:
-                value:
-                  id: 1
-                  heure: 21Heure
-      responses:
-        '200':
-         description: list of Film
-         content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Projection'
-        '400':
-          description: bad request
-  /Film/{id}:         
-    delete:
-      tags:
-        - Film
-      summary: delete some Film
-      operationId: delete film
-      description: deleted
-      parameters:
-        - name: id
+        - name: Titre
           in: path
           required: true
           schema:
-            type: integer
+            type: string
+      requestBody:
+        description: update a film
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/film'
       responses:
         '200':
-          description: Film is deleted succefull
-          
+          description: update succefull
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/All_Film'
+                    - $ref: '#/components/schemas/film'
+        '400':
+          description: Bad request
+        
+    patch:
+      tags:
+        - "Film"
+      summary: Change part of a film
+      operationId: Change part 
+      requestBody:
+        description: Film is update
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/film'
+            examples:
+              ChangeTitle:
+                value:
+                  id: 1
+                  Titre: Strange
+              ChangeGenre:
+                value:
+                  id: 2
+                  Genre: Orreur
+              ChangeClass:
+                value:
+                  id: 3
+                  Class: A
+      responses:
+        '200':
+          description: update succefull
+        '400':
+          description: erreur update
+        
+    delete:
+      tags:
+        - "Film"
+      summary: Delete a Film
+      operationId: Delete Film
+      parameters:
+        - name: Titre
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: succefull
+        '400':
+          description: erreur 
 
+  /Type/Film:
+    get:
+      tags:
+        - "Type"
+      summary: get all Type
+      operationId: get Type
+      parameters:
+        - name: Genre
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list of Type
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/All_Film'
+                    - $ref: '#/components/schemas/Type'
+                    - $ref: '#/components/schemas/film'
+        '400':
+          description: Bad request
+    
+    post:
+      tags:
+        - "Type"
+      summary: add new Type
+      operationId: add Type
+      requestBody:
+        description: A Type to be added
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                allOf:
+                  - $ref: '#/components/schemas/Type'
+                  - $ref: '#/components/schemas/film'
+        required: true
+      responses:
+        '200':
+          description: A Type add succefull
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/All_Film'
+                    - $ref: '#/components/schemas/Type'
+                    - $ref: '#/components/schemas/film'
+        '400':
+          description: Bad request
+
+  /Type/{id_type}/film/{Titre}:
+    put:
+      tags:
+        - "Type"
+      summary: Change all information of Type
+      operationId: Change all information
+      parameters:
+        - name: id_type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Titre
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: update a Type
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                allOf:
+                    - $ref: '#/components/schemas/Type'
+                    - $ref: '#/components/schemas/film'
+      responses:
+        '200':
+          description: update succefull
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/All_Film'
+                    - $ref: '#/components/schemas/Type'
+                    - $ref: '#/components/schemas/film'
+        '400':
+          description: Bad request
+        
+   
+        
+    delete:
+      tags:
+        - "Type"
+      summary: Delete a Type
+      operationId: Delete Type
+      parameters:
+        - name: id_type
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Titre
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: succefull
+        '400':
+          description: erreur 
       
+                      
 components:
   schemas:
-    CreateFilm:
-      type: object
-      properties:
-        id:
-          type: integer
-        Film:
-          type: array
-          items:
-              $ref: '#/components/schemas/Film'
-    Film:
-      type: object
-      properties:
-        titre:
-          type: string
-        dure:
-          type: string
-          format: hours
-          example: '1hours'
-        realisateur:
-          type: string
-        date_de_sortie:
-          type: string
-          format: date
-          example: '2022-01-01'
-        resume:
-          type: string
-        
-          
-    Salle:
-      type: object
-      properties:
-        name:
-          type: string
-          example: "A"
-        capacite_accueil:
-          type: string
-          example: "80"
-      
-    Projection:
-      type: object
-      properties:
-        id:
-          type: number
-        film:
-          type: object
-          $ref: '#/components/schemas/Film'
-        salle:
-          type: object
-          $ref: '#/components/schemas/Salle'
-        heure_diffusion:
-          type: string
-          format: date_time
-          example: 12:00A
+      film:
+        type: object
+        properties:
+          Titre:
+            type: string
+            example: good 
+          Genre:
+            type: string
+            example: anventure
+          Dure:
+            type: integer
+          Resume:
+            type: string
+      All_Film:
+        type: object
+        properties:
+          id_film:
+            type: integer
+      Type:
+        type: object
+        properties:
+          Type:
+            type: string
+            example: Serie
+      id_type:
+        type: object
+        properties:
+          id_type:
+            type: integer
